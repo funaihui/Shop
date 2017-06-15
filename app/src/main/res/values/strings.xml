@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Shop</string>
+    <string name="search_view_hint">请输入搜索内容</string>
+    <string name="category">类别</string>
+</resources>

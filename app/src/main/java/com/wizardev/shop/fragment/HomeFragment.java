@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.google.gson.Gson;
+import com.wizardev.shop.Contants;
 import com.wizardev.shop.R;
 import com.wizardev.shop.adapter.DivideItemDecoration;
 import com.wizardev.shop.adapter.HomeCategoryAdapter;
@@ -25,7 +26,6 @@ import com.wizardev.shop.bean.HomeCategoryBean;
 import com.wizardev.shop.http.BaseCallback;
 import com.wizardev.shop.http.OkHttpHelper;
 import com.wizardev.shop.http.SpotsCallback;
-import com.wizardev.shop.widget.Contants;
 
 import java.util.ArrayList;
 import java.util.List;

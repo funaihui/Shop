@@ -31,8 +31,8 @@ public class OkHttpHelper {
     private OkHttpHelper() {
         mClient = new OkHttpClient();
         mClient.newBuilder().readTimeout(10, TimeUnit.SECONDS);
-        mClient.newBuilder().connectTimeout(10,TimeUnit.SECONDS);
-        mClient.newBuilder().writeTimeout(10,TimeUnit.SECONDS);
+        mClient.newBuilder().connectTimeout(10, TimeUnit.SECONDS);
+        mClient.newBuilder().writeTimeout(10, TimeUnit.SECONDS);
         mGson = new Gson();
         mHandler = new Handler(Looper.getMainLooper());
     }
@@ -46,28 +46,28 @@ public class OkHttpHelper {
         }
     }
 
-    private  Request buildRequestGet(String url) {
-        return buildRequest(url,HttpMethodType.GET,null);
+    private Request buildRequestGet(String url) {
+        return buildRequest(url, HttpMethodType.GET, null);
     }
 
-    private Request buildRequestPost(String url,Map<String, String> params) {
-        return buildRequest(url,HttpMethodType.POST,params);
+    private Request buildRequestPost(String url, Map<String, String> params) {
+        return buildRequest(url, HttpMethodType.POST, params);
     }
 
-    public void get(String url,BaseCallback callback){
+    public void get(String url, BaseCallback callback) {
 
 
         Request request = buildRequestGet(url);
 
-        request(request,callback);
+        request(request, callback);
 
     }
 
 
-    public void post(String url,Map<String,String> param, BaseCallback callback){
+    public void post(String url, Map<String, String> param, BaseCallback callback) {
 
-        Request request = buildRequestPost(url,param);
-        request(request,callback);
+        Request request = buildRequestPost(url, param);
+        request(request, callback);
     }
 
 
@@ -82,66 +82,66 @@ public class OkHttpHelper {
         return builder.build();
     }
 
-    public void request(final Request request, final BaseCallback callback){
+    public void request(final Request request, final BaseCallback callback) {
         callback.onBeforeCallback(request);
         mClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callbackFailure(callback,request,e);
+                callbackFailure(callback, request, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callbackResponse(callback,response);
-                if (response.isSuccessful()){
+                callbackResponse(callback, response);
+                if (response.isSuccessful()) {
                     String resultStr = response.body().string();
-                    if (callback.mType == String.class){
-                        callbackSuccess(callback,response,resultStr);
-                    }else {
+                    if (callback.mType == String.class) {
+                        callbackSuccess(callback, response, resultStr);
+                    } else {
                         try {
-                            Object object = mGson.fromJson(resultStr,callback.mType);
-                            callbackSuccess(callback,response,object);
-                        }catch (JsonParseException e){
-                            callback.onError(response,response.code(),e);
+                            Object object = mGson.fromJson(resultStr, callback.mType);
+                            callbackSuccess(callback, response, object);
+                        } catch (JsonParseException e) {
+                            callback.onError(response, response.code(), e);
                         }
                     }
-                   // mGson.fromJson(resultStr,)
-                }else {
-                    callback.onError(response,response.code(),null);
+                    // mGson.fromJson(resultStr,)
+                } else {
+                    callback.onError(response, response.code(), null);
                 }
             }
         });
     }
 
 
-    private void callbackSuccess(final BaseCallback callback, final Response response, final Object object){
+    private void callbackSuccess(final BaseCallback callback, final Response response, final Object object) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                callback.onSuccess(response,object);
+                callback.onSuccess(response, object);
             }
         });
     }
 
-    private void callbackFailure(final BaseCallback callback, final Request request, final IOException e){
+    private void callbackFailure(final BaseCallback callback, final Request request, final IOException e) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                callback.onFailure(request,e);
+                callback.onFailure(request, e);
             }
         });
     }
 
-    private void callbackError(final BaseCallback callback, final Response response, final IOException e){
+    private void callbackError(final BaseCallback callback, final Response response, final IOException e) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                callback.onError(response,response.code(),e);
+                callback.onError(response, response.code(), e);
             }
         });
     }
 
-    private void callbackResponse(final  BaseCallback callback , final Response response ){
+    private void callbackResponse(final BaseCallback callback, final Response response) {
 
         mHandler.post(new Runnable() {
             @Override

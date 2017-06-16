@@ -2,9 +2,9 @@ package com.wizardev.shop.adapter;
 
 import android.content.Context;
 
-import com.customview.xiaohui.shop.R;
-import com.customview.xiaohui.shop.bean.Wares;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.wizardev.shop.R;
+import com.wizardev.shop.bean.Wares;
 
 import java.util.List;
 

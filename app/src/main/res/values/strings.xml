@@ -1,5 +1,14 @@
 <resources>
-    <string name="app_name">Shop</string>
-    <string name="search_view_hint">请输入搜索内容</string>
-    <string name="category">类别</string>
+    <string name="app_name">购物App</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="home">主页</string>
+    <string name="hot">热卖</string>
+    <string name="catagory">分类</string>
+    <string name="cart">购物车</string>
+    <string name="mine">我的</string>
+    <string name="please_input_serach_content">请输入搜索商品</string>
+
 </resources>

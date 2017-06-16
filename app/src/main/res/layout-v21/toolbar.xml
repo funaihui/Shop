@@ -9,7 +9,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         style="@style/search_view"
-        android:hint="@string/search_view_hint"
+        android:hint="@string/please_input_serach_content"
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="wrap_content"

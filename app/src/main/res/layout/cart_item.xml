@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBox
+        android:id="@+id/cb_select_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+       android:id="@+id/drawee_cart"
+        app:viewAspectRatio="1.0"
+        android:layout_width="80.0dip"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/cb_select_cart"
+        android:background="@null" />
+
+    <TextView
+
+     android:id="@+id/text_title_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/drawee_cart"
+        android:textColor="@color/black"
+        android:textSize="10.0sp" />
+
+    <com.customview.xiaohui.shop.widget.NumAddSubView
+        android:id="@+id/addOrSub"
+        app:maxValue="100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/drawee_cart"
+        android:layout_toRightOf="@id/drawee_cart" />
+
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16.0dip"
+        android:textColor="@color/firebrick"
+        android:textSize="15.0sp" />
+</RelativeLayout>
+

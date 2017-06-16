@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import org.litepal.LitePal;
 import org.xutils.x;
 
 
@@ -16,7 +17,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
-
+        LitePal.initialize(this);
         x.Ext.init(this);
     }
 }

@@ -10,5 +10,8 @@
     <string name="cart">购物车</string>
     <string name="mine">我的</string>
     <string name="please_input_serach_content">请输入搜索商品</string>
+    <string name="select_all">全选</string>
+    <string name="total_price">总价</string>
+    <string name="buy">去购买</string>
 
 </resources>

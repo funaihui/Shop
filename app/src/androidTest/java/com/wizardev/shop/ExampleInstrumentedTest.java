@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.wizardev.shop.bean.Cart;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,5 +24,11 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.wizardev.shop", appContext.getPackageName());
+    }
+    @Test
+    public void test(){
+        Cart cart = new Cart();
+        cart.setCount(1);
+        cart.save();
     }
 }

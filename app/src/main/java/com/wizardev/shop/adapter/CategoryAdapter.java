@@ -2,6 +2,7 @@ package com.wizardev.shop.adapter;
 
 import android.content.Context;
 
+import com.wizardev.shop.R;
 import com.wizardev.shop.bean.CategoryList;
 
 import java.util.List;
@@ -17,6 +18,6 @@ public class CategoryAdapter extends SimpleAdapter<CategoryList> {
 
     @Override
     public void bindView(BaseViewHolder viewHolder, CategoryList item) {
-      //  viewHolder.getTextView(R.id.left_list).setText(item.getName());
+        viewHolder.getTextView(R.id.left_list_text).setText(item.getName());
     }
 }

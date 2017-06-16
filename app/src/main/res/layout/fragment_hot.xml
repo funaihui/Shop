@@ -4,22 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-
-    <android.support.v7.widget.Toolbar
+    <com.wizardev.shop.customView.MyToolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:toolbarTitle="@string/hot"
+        app:isShowSearchView="false"
+        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hot"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:id="@+id/toolbar_title" />
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content"/>
 
     <com.cjj.MaterialRefreshLayout
         android:id="@+id/refresh_view"

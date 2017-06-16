@@ -50,14 +50,8 @@ public class MyToolbar extends Toolbar {
 
         initView();
         setContentInsetsRelative(10,10);
-
-
-
-
         if(attrs !=null) {
             final TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs,R.styleable.MyToolbar,defStyleAttr,0);
-
-
             final Drawable rightIcon = a.getDrawable(R.styleable.MyToolbar_rightButtonIcon);
             if (rightIcon != null) {
                 //setNavigationIcon(navIcon);
@@ -74,14 +68,15 @@ public class MyToolbar extends Toolbar {
 
             }
 
-
-
             CharSequence rightButtonText = a.getText(R.styleable.MyToolbar_rightButtonText);
             if(rightButtonText !=null){
                 setRightButtonText(rightButtonText);
             }
 
-
+            CharSequence titleText = a.getText(R.styleable.MyToolbar_toolbarTitle);
+            if(titleText !=null){
+                setTitle(titleText);
+            }
 
             a.recycle();
         }
@@ -195,5 +190,6 @@ public class MyToolbar extends Toolbar {
             mTextTitle.setVisibility(GONE);
 
     }
+
 
 }

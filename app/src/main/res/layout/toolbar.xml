@@ -2,14 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
     <EditText
         android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         style="@style/search_view"
-        android:hint="@string/search_view_hint"
+        android:hint="@string/please_input_serach_content"
         android:layout_width="match_parent"
         android:visibility="visible"
         android:layout_height="wrap_content"

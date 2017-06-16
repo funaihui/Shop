@@ -19,9 +19,9 @@ public class WaresAdapter extends SimpleAdapter<Wares> {
 
     @Override
     public void bindView(BaseViewHolder viewHolder, Wares item) {
-        SimpleDraweeView simpleDraweeView = (SimpleDraweeView) viewHolder.getView(R.id.drawee_view);
+        SimpleDraweeView simpleDraweeView = (SimpleDraweeView) viewHolder.getView(R.id.drawee_category);
         simpleDraweeView.setImageURI(item.getImgUrl());
-        viewHolder.getTextView(R.id.text_title).setText(item.getName());
-        viewHolder.getTextView(R.id.text_price).setText("￥" + item.getPrice());
+        viewHolder.getTextView(R.id.text_title_category).setText(item.getName());
+        viewHolder.getTextView(R.id.text_price_category).setText("￥" + item.getPrice());
     }
 }

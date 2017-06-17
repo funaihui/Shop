@@ -20,14 +20,14 @@
 
     <TextView
 
-     android:id="@+id/text_title_cart"
+        android:id="@+id/text_title_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/drawee_cart"
         android:textColor="@color/black"
         android:textSize="10.0sp" />
 
-    <com.customview.xiaohui.shop.widget.NumAddSubView
+    <com.wizardev.shop.customView.NumberAddSubView
         android:id="@+id/addOrSub"
         app:maxValue="100"
         android:layout_width="wrap_content"

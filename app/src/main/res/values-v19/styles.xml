@@ -17,4 +17,7 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+    <style name="customCheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_checkbox</item>
+    </style>
 </resources>

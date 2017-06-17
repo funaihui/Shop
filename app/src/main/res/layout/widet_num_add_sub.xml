@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_btn_style_white"
         android:textColor="@color/black"
+        android:minWidth="30dp"
         android:text="-"/>
 
     <TextView
@@ -22,11 +23,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:minWidth="100dp"
+        android:minWidth="30dp"
 
         android:gravity="center"/>
 
     <Button
+        android:minWidth="30dp"
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

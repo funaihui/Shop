@@ -28,7 +28,6 @@ public class MyToolbar extends Toolbar {
 
 
     private LayoutInflater mInflater;
-
     private View mView;
     private TextView mTextTitle;
     private EditText mSearchView;
@@ -89,20 +88,13 @@ public class MyToolbar extends Toolbar {
         if(mView == null) {
 
             mInflater = LayoutInflater.from(getContext());
-            mView = mInflater.inflate(R.layout.toolbar, null);
-
-
-            mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
-            mSearchView = (EditText) mView.findViewById(R.id.toolbar_search_view);
-            mRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
-
-
+            mView = mInflater.inflate(R.layout.toolbar,null,false);
+            mTextTitle =  mView.findViewById(R.id.toolbar_title);
+            mSearchView =  mView.findViewById(R.id.toolbar_search_view);
+            mRightButton =  mView.findViewById(R.id.toolbar_rightButton);
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
-
             addView(mView, lp);
         }
-
-
 
     }
 

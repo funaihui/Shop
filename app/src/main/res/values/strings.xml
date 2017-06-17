@@ -13,5 +13,7 @@
     <string name="select_all">全选</string>
     <string name="total_price">总价</string>
     <string name="buy">去购买</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
 
 </resources>

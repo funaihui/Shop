@@ -1,5 +1,6 @@
 package com.wizardev.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,11 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.wizardev.shop.Contants;
 import com.wizardev.shop.R;
+import com.wizardev.shop.WaresDetailActivity;
+import com.wizardev.shop.adapter.BaseAdapter;
 import com.wizardev.shop.adapter.HWAdapter;
 import com.wizardev.shop.adapter.decoration.DividerItemDecoration;
 import com.wizardev.shop.bean.Page;
@@ -78,7 +82,7 @@ public class HotFragment extends Fragment {
                 if (currPage <= totalPage)
                     loadMoreData();
                 else {
-//                    Toast.makeText()
+                    Toast.makeText(getContext(),"已经到底了",Toast.LENGTH_SHORT).show();
                     mRefreshLaout.finishRefreshLoadMore();
                 }
             }
@@ -144,7 +148,15 @@ public class HotFragment extends Fragment {
 
 
                 mRecyclerView.setAdapter(mAdatper);
-
+                mAdatper.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Wares wares = mAdatper.getItem(position);
+                        Intent intent = new Intent(getActivity(), WaresDetailActivity.class);
+                        intent.putExtra(Contants.WARES,wares);
+                        startActivity(intent);
+                    }
+                });
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));

@@ -21,7 +21,7 @@ public  class HWAdapter extends SimpleAdapter<Wares> {
     public HWAdapter(Context mContext, List<Wares> list, int mResId) {
         super(mContext, list, mResId);
         this.context = mContext;
-        cartDao = new CartDao();
+        cartDao = CartDao.getInstance();
     }
 
     @Override

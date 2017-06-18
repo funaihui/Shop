@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.wizardev.shop.R;
 import com.wizardev.shop.adapter.CartAdapter;
-import com.wizardev.shop.adapter.DivideItemDecoration;
 import com.wizardev.shop.bean.Cart;
 import com.wizardev.shop.customView.MyToolbar;
 import com.wizardev.shop.dao.CartDao;
@@ -61,7 +60,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getCartDatas() {
-        cartDao = new CartDao();
+        cartDao = CartDao.getInstance();
         carts = cartDao.selectAllShop();
         showProductFromLocal();
     }
@@ -72,7 +71,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             mCartRecycleView.setAdapter(mAdapter);
             mCartRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
             mCartRecycleView.setHasFixedSize(true);
-            mCartRecycleView.addItemDecoration(new DivideItemDecoration());
+           // mCartRecycleView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.HORIZONTAL_LIST));
         }
     }
     private void showRightButton(){

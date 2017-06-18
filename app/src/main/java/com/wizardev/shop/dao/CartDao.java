@@ -17,6 +17,18 @@ import java.util.List;
 public class CartDao {
     private static final String TAG = "CartDao";
 
+    private static CartDao cartDao;
+    private CartDao(){
+
+    }
+
+    public static synchronized CartDao getInstance(){
+        if (cartDao==null){
+            return new CartDao();
+        }else {
+            return cartDao;
+        }
+    }
     public  void add2Cart(Wares wares){
         Cart cart = new Cart();
         if (selectAllShop()==null){

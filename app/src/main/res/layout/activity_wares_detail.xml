@@ -13,7 +13,6 @@
         app:toolbarTitle="@string/detail"
         android:id="@+id/mytoolbar"
         app:isShowSearchView="false"
-        app:contentInsetEnd="56dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:layout_height="wrap_content"/>

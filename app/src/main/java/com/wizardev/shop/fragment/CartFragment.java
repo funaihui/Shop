@@ -1,5 +1,6 @@
 package com.wizardev.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.wizardev.shop.OrderDetailActivity;
 import com.wizardev.shop.R;
 import com.wizardev.shop.adapter.CartAdapter;
 import com.wizardev.shop.bean.Cart;
@@ -56,7 +58,18 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 mAdapter.delCart();
             }
         });
+        buy();
         return view;
+    }
+
+    private void buy() {
+        mBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void getCartDatas() {
@@ -66,13 +79,14 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showProductFromLocal() {
-        if (carts!=null&&!carts.isEmpty()){
+
             mAdapter = new CartAdapter(getContext(),carts, R.layout.cart_item,mCheckBox,mTotalPriceText);
+
             mCartRecycleView.setAdapter(mAdapter);
             mCartRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
             mCartRecycleView.setHasFixedSize(true);
            // mCartRecycleView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.HORIZONTAL_LIST));
-        }
+
     }
     private void showRightButton(){
         myToolbar.setRightButtonText(getString(R.string.edit));

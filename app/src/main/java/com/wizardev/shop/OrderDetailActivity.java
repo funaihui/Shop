@@ -15,9 +15,11 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.pingplusplus.android.Pingpp;
 import com.wizardev.shop.adapter.WareOrderAdapter;
 import com.wizardev.shop.adapter.layoutmanager.FullyLinearLayoutManager;
+import com.wizardev.shop.bean.Wares;
 import com.wizardev.shop.dao.CartDao;
 
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ import org.xutils.x;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -57,17 +60,19 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
 
     @ViewInject(R.id.txt_total)
     private TextView totalPrice;
+    @ViewInject(R.id.simple_pic)
+    private SimpleDraweeView mProductPic;
     private CartDao cartDao;
     private float amount;
 
     /**
-     *开发者需要填一个服务端URL 该URL是用来请求支付需要的charge。务必确保，URL能返回json格式的charge对象。
-     *服务端生成charge 的方式可以参考ping++官方文档，地址 https://pingxx.com/guidance/server/import
-     *
-     *【 http://218.244.151.190/demo/charge 】是 ping++ 为了方便开发者体验 sdk 而提供的一个临时 url 。
+     * 开发者需要填一个服务端URL 该URL是用来请求支付需要的charge。务必确保，URL能返回json格式的charge对象。
+     * 服务端生成charge 的方式可以参考ping++官方文档，地址 https://pingxx.com/guidance/server/import
+     * <p>
+     * 【 http://218.244.151.190/demo/charge 】是 ping++ 为了方便开发者体验 sdk 而提供的一个临时 url 。
      * 该 url 仅能调用【模拟支付控件】，开发者需要改为自己服务端的 url 。
      */
-    private static String YOUR_URL ="http://218.244.151.190/demo/charge";
+    private static String YOUR_URL = "http://218.244.151.190/demo/charge";
     public static final String CHARGE_URL = YOUR_URL;
     /**
      * 银联支付渠道
@@ -93,15 +98,20 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
      * 京东支付渠道
      */
     private static final String CHANNEL_JDPAY_WAP = "jdpay_wap";
-    private String payChannel=CHANNEL_ALIPAY;
+    private String payChannel = CHANNEL_ALIPAY;
     private HashMap<String, RadioButton> channels = new HashMap<>();
     private WareOrderAdapter wareOrderAdapter;
-    private String orderNum;
+    private Wares mWare;
+    private int mCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+        Serializable serializableExtra = getIntent().getSerializableExtra(Contants.WARES);
+        mCategory = getIntent().getIntExtra(Contants.ACTIVITY, 0);
+
+        mWare = (Wares) serializableExtra;
         x.view().inject(this);
         showData();
         init();
@@ -109,14 +119,25 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void showData() {
         cartDao = CartDao.getInstance();
-        wareOrderAdapter = new WareOrderAdapter(this, cartDao.selectAllShop(), R.layout.ware_item);
-        FullyLinearLayoutManager layoutManager = new FullyLinearLayoutManager(this);
-        layoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
-        productRecycle.setLayoutManager(layoutManager);
+        if (mCategory==Contants.HTML){
+            mProductPic.setVisibility(View.VISIBLE);
+            mProductPic.setImageURI(mWare.getImgUrl());
 
-        productRecycle.setAdapter(wareOrderAdapter);
-        amount = wareOrderAdapter.totalPrice();
+            amount = mWare.getPrice();
+        }else {
+            Log.i(TAG, "size: "+cartDao.selectAllShop().size());
+            mProductPic.setVisibility(View.GONE);
+            wareOrderAdapter = new WareOrderAdapter(this, cartDao.selectAllShop(), R.layout.ware_item);
+            FullyLinearLayoutManager layoutManager = new FullyLinearLayoutManager(this);
+            layoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
+            productRecycle.setLayoutManager(layoutManager);
+
+            productRecycle.setAdapter(wareOrderAdapter);
+            amount = wareOrderAdapter.totalPrice();
+
+        }
         totalPrice.setText("应付款： ￥" + amount);
+
     }
 
     private void init() {
@@ -126,6 +147,10 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
         rAlipay.setOnClickListener(this);
         rWechat.setOnClickListener(this);
         rBaidu.setOnClickListener(this);
+        rb_alipay.setOnClickListener(this);
+        rb_webchat.setOnClickListener(this);
+        rb_bd.setOnClickListener(this);
+        Statebar.setStatuebarColor(this, 0xeb4f38);
         mCreateOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,13 +163,10 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         String tag = view.getTag().toString();
         payChannel = tag;
-        Log.i(TAG, "tag: "+tag);
         for (Map.Entry<String, RadioButton> entry : channels.entrySet()) {
             RadioButton radioButton = entry.getValue();
-            Log.i(TAG, "onClick: " + radioButton);
-            if (tag.equals(entry.getKey())) {
+            if (payChannel.equals(entry.getKey())) {
                 boolean checked = radioButton.isChecked();
-                Log.i(TAG, "onClick: 1");
                 radioButton.setChecked(!checked);
             } else {
                 radioButton.setChecked(false);
@@ -161,7 +183,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
     }*/
 
     private void postNewOrder() {
-      //  String amountText = totalPrice.getText().toString().substring(4);
+        //  String amountText = totalPrice.getText().toString().substring(4);
         String amountText = "0.1";
         if (amountText.equals("")) return;
         String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
@@ -173,12 +195,13 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
 
 
     }
+
     class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
 
         @Override
         protected void onPreExecute() {
             //按键点击之后的禁用，防止重复点击
-           mCreateOrder.setEnabled(false);
+            mCreateOrder.setEnabled(false);
         }
 
         @Override
@@ -198,25 +221,27 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
             }
             return data;
         }
+
         /**
          * 获取charge
+         *
          * @param urlStr charge_url
-         * @param json 获取charge的传参
+         * @param json   获取charge的传参
          * @return charge
          * @throws IOException
          */
-        private  String postJson(String urlStr, String json) throws IOException {
+        private String postJson(String urlStr, String json) throws IOException {
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(8000);
             conn.setReadTimeout(8000);
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type","application/json");
+            conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.getOutputStream().write(json.getBytes());
 
-            if(conn.getResponseCode() == 200) {
+            if (conn.getResponseCode() == 200) {
                 BufferedReader
                         reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
                 StringBuilder response = new StringBuilder();
@@ -228,12 +253,13 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
             }
             return null;
         }
+
         /**
          * 获得服务端的charge，调用ping++ sdk。
          */
         @Override
         protected void onPostExecute(String data) {
-            if(null == data){
+            if (null == data) {
                 showMsg("请求出错", "请检查URL", "URL无法获取charge");
                 return;
             }
@@ -259,10 +285,10 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
 
     public void showMsg(String title, String msg1, String msg2) {
         String str = title;
-        if (null !=msg1 && msg1.length() != 0) {
+        if (null != msg1 && msg1.length() != 0) {
             str += "\n" + msg1;
         }
-        if (null !=msg2 && msg2.length() != 0) {
+        if (null != msg2 && msg2.length() != 0) {
             str += "\n" + msg2;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetailActivity.this);
@@ -271,6 +297,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
         builder.setPositiveButton("OK", null);
         builder.create().show();
     }
+
     /**
      * onActivityResult 获得支付结果，如果支付成功，服务器会收到ping++ 服务器发送的异步通知。
      * 最终支付成功根据异步通知为准
@@ -291,20 +318,20 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
                  */
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-                 showMsg(result, errorMsg, extraMsg);
+                showMsg(result, errorMsg, extraMsg);
             }
         }
     }
 
 
-   class PaymentRequest {
-       String channel;
-       float amount;
+    class PaymentRequest {
+        String channel;
+        float amount;
 
-       public PaymentRequest(String channel, float amount) {
-           this.channel = channel;
-           this.amount = amount;
-       }
-   }
+        public PaymentRequest(String channel, float amount) {
+            this.channel = channel;
+            this.amount = amount;
+        }
+    }
 
 }

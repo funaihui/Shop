@@ -1,6 +1,7 @@
 package com.wizardev.shop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -97,9 +98,11 @@ public class WaresDetailActivity extends AppCompatActivity {
         settings.setBlockNetworkImage(false);
 
         mWebDetail.loadUrl(Contants.API.WARES_DETAIL);
+       // mWebDetail.loadUrl("file:///android_asset/index.html");
         mAppInterface = new AppInterface(this);
         mWebDetail.addJavascriptInterface(mAppInterface, "appInterface");
         mWebDetail.setWebViewClient(new MyWebClient());
+        mAppInterface.showDetail();
     }
 
     private void initToolbar() {
@@ -140,8 +143,14 @@ public class WaresDetailActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void buy() {
+        public void buy(long id) {
+            //Toast.makeText(WaresDetailActivity.this,"你点击了购买按钮"+id,Toast.LENGTH_SHORT).show();
+            //cartDao.selectOne(id);
+            Intent intent = new Intent(WaresDetailActivity.this,OrderDetailActivity.class);
+            intent.putExtra(Contants.WARES,mWare);
+            intent.putExtra(Contants.ACTIVITY,Contants.HTML);
 
+            startActivity(intent);
         }
 
         @JavascriptInterface

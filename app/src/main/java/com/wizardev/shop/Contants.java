@@ -6,6 +6,9 @@ package com.wizardev.shop;
 public class Contants {
 
     public static final String WARES="wares";
+    public static final String ACTIVITY="Activity";
+    public static final int HTML=1;
+    public static final int ANDROID=2;
     public static class API{
 
 

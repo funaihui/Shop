@@ -120,6 +120,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"/>
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_width="80dp"
+                        android:id="@+id/simple_pic"
+                        android:visibility="gone"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_height="80dp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -225,7 +232,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         style="@style/radioButton"
-
+                        android:tag="alipay"
                         android:checked="true"
                         android:clickable="false"
                         />
@@ -295,7 +302,7 @@
                         android:layout_centerVertical="true"
                         style="@style/radioButton"
 
-
+                        android:tag="wx"
                         />
 
 
@@ -355,6 +362,8 @@
 
                     <RadioButton
                         android:id="@+id/rb_bd"
+                        android:tag="bfb"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

@@ -65,7 +65,7 @@ public class CartDao {
 
     public  List<Cart> selectAllShop(){
         List<Cart> cartList = null;
-        cartList = DataSupport.findAll(Cart.class,true);
+        cartList = DataSupport.findAll(Cart.class);
         if (cartList!=null&&!cartList.isEmpty()){
             return cartList;
         }

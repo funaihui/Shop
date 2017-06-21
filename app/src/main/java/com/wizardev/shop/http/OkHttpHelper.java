@@ -2,11 +2,15 @@ package com.wizardev.shop.http;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.wizardev.shop.Contants;
+import com.wizardev.shop.application.MyApplication;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +31,9 @@ public class OkHttpHelper {
     private OkHttpClient mClient;
     private Gson mGson;
     private Handler mHandler;
+    public static final int TOKEN_MISSING = 401;// token 丢失
+    public static final int TOKEN_ERROR = 402; // token 错误
+    public static final int TOKEN_EXPIRE = 403; // token 过期
 
     private OkHttpHelper() {
         mClient = new OkHttpClient();
@@ -46,23 +53,57 @@ public class OkHttpHelper {
         }
     }
 
-    private Request buildRequestGet(String url) {
+    private Request buildRequestGet(String url, Map<String, String> params) {
         return buildRequest(url, HttpMethodType.GET, null);
     }
+
 
     private Request buildRequestPost(String url, Map<String, String> params) {
         return buildRequest(url, HttpMethodType.POST, params);
     }
 
-    public void get(String url, BaseCallback callback) {
+    public void get(String url, Map<String, String> params, BaseCallback callback) {
 
 
-        Request request = buildRequestGet(url);
+        Request request = buildRequestGet(url, params);
 
         request(request, callback);
 
     }
+    public void get(String url,  BaseCallback callback) {
 
+
+       this.get(url,null,callback);
+
+    }
+    private static String buildUrlParams(String url, Map<String, String> params) {
+
+        if (params == null)
+            params = new HashMap<>(1);
+
+        String token = MyApplication.getInstance().getToken();
+        if (!TextUtils.isEmpty(token))
+            params.put("token", token);
+
+
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            sb.append(entry.getKey() + "=" + (entry.getValue() == null ? "" : entry.getValue().toString()));
+            sb.append("&");
+        }
+        String s = sb.toString();
+        if (s.endsWith("&")) {
+            s = s.substring(0, s.length() - 1);
+        }
+
+        if (url.indexOf("?") > 0) {
+            url = url + "&" + s;
+        } else {
+            url = url + "?" + s;
+        }
+
+        return url;
+    }
 
     public void post(String url, Map<String, String> param, BaseCallback callback) {
 
@@ -74,7 +115,10 @@ public class OkHttpHelper {
     private static Request buildRequest(String url, HttpMethodType type, Map<String, String> params) {
         Request.Builder builder = new Request.Builder();
         if (type == HttpMethodType.GET) {
+            url = buildUrlParams(url, params);
             builder.url(url);
+
+            builder.get();
         } else if (type == HttpMethodType.POST) {
             RequestBody requestBody = builderFormData(params);
             builder.url(url).post(requestBody);
@@ -106,14 +150,25 @@ public class OkHttpHelper {
                         }
                     }
                     // mGson.fromJson(resultStr,)
-                } else {
+                } else if(response.code() == TOKEN_ERROR||response.code() == TOKEN_EXPIRE ||response.code() == TOKEN_MISSING ){
+
+                    callbackTokenError(callback,response);
+                }
+                else {
                     callback.onError(response, response.code(), null);
                 }
             }
         });
     }
+    private void callbackTokenError(final  BaseCallback callback , final Response response ){
 
-
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onTokenError(response,response.code());
+            }
+        });
+    }
     private void callbackSuccess(final BaseCallback callback, final Response response, final Object object) {
         mHandler.post(new Runnable() {
             @Override
@@ -158,6 +213,7 @@ public class OkHttpHelper {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 builder.add(entry.getKey(), entry.getValue());
             }
+            builder.add(Contants.TOKEN, MyApplication.getInstance().getToken());
         }
         return builder.build();
     }

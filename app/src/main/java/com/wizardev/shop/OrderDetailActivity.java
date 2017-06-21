@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,7 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class OrderDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
     @ViewInject(R.id.recycler_view)
     private RecyclerView productRecycle;
     @ViewInject(R.id.rl_alipay)

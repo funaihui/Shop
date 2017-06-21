@@ -242,7 +242,10 @@
             android:theme="@style/EbpayThemeActivit"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".OrderDetailActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".BaseActivity"
+            android:label="@string/title_activity_base"></activity>
     </application>
 
 </manifest>

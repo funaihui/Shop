@@ -37,4 +37,6 @@ public abstract class BaseCallback<T> {
     public abstract void onSuccess(Response response,T t);
     public abstract void onError(Response response,int code,Exception e);
     public abstract void onResponse(Response response);
+
+    public abstract void onTokenError(Response response, int code);
 }

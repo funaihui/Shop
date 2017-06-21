@@ -2,8 +2,6 @@ package com.wizardev.shop.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,13 +18,16 @@ import com.wizardev.shop.bean.Cart;
 import com.wizardev.shop.customView.MyToolbar;
 import com.wizardev.shop.dao.CartDao;
 
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;
 
+import static com.wizardev.shop.R.id.bt_buy;
 
-public class CartFragment extends Fragment implements View.OnClickListener {
+
+public class CartFragment extends BaseFragment implements View.OnClickListener {
     @ViewInject(R.id.select_all)
     private CheckBox mCheckBox;
     @ViewInject(R.id.total_price)
@@ -37,19 +38,25 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     private RecyclerView mCartRecycleView;
     @ViewInject(R.id.mytoolbar)
     private MyToolbar myToolbar;
-    @ViewInject(R.id.bt_buy)
+    @ViewInject(bt_buy)
     private Button mBuyButton;
     @ViewInject(R.id.btn_del)
     private Button mDeleteButton;
-    private static final int EDIT=1;
-    private static final int FINISH=2;
+    private static final int EDIT = 1;
+    private static final int FINISH = 2;
     private Button mRightButton;
     private CartAdapter mAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cart,container,false);
-        x.view().inject(this,view);
+    public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        x.view().inject(this, view);
+        init();
+        return view;
+    }
+
+    @Override
+    public void init() {
         getCartDatas();
         showRightButton();
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -58,19 +65,16 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 mAdapter.delCart();
             }
         });
-        buy();
-        return view;
     }
 
-    private void buy() {
-        mBuyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Event(R.id.bt_buy)
+    private void buy(View view) {
+        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+        startActivity(intent,true);
+
     }
+
+
 
     public void getCartDatas() {
         cartDao = CartDao.getInstance();
@@ -80,22 +84,24 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
     private void showProductFromLocal() {
 
-            mAdapter = new CartAdapter(getContext(),carts, R.layout.cart_item,mCheckBox,mTotalPriceText);
+        mAdapter = new CartAdapter(getContext(), carts, R.layout.cart_item, mCheckBox, mTotalPriceText);
 
-            mCartRecycleView.setAdapter(mAdapter);
-            mCartRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-            mCartRecycleView.setHasFixedSize(true);
-           // mCartRecycleView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.HORIZONTAL_LIST));
+        mCartRecycleView.setAdapter(mAdapter);
+        mCartRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mCartRecycleView.setHasFixedSize(true);
+        // mCartRecycleView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.HORIZONTAL_LIST));
 
     }
-    private void showRightButton(){
+
+    private void showRightButton() {
         myToolbar.setRightButtonText(getString(R.string.edit));
         mRightButton = myToolbar.getRightButton();
         mRightButton.setOnClickListener(this);
         mRightButton.setTag(EDIT);
 
     }
-    private void showDelControl(){
+
+    private void showDelControl() {
         mRightButton.setText("完成");
         mTotalPriceText.setVisibility(View.GONE);
         mBuyButton.setVisibility(View.GONE);
@@ -106,7 +112,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void  hideDelControl(){
+    private void hideDelControl() {
 
         mTotalPriceText.setVisibility(View.VISIBLE);
         mBuyButton.setVisibility(View.VISIBLE);
@@ -121,22 +127,18 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-
     @Override
     public void onClick(View v) {
 
 
         int tag = (int) v.getTag();
-        if(EDIT == tag){
+        if (EDIT == tag) {
 
             showDelControl();
-        }
-        else if(FINISH == tag){
+        } else if (FINISH == tag) {
 
             hideDelControl();
         }
-
 
 
     }

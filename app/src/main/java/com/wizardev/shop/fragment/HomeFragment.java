@@ -81,6 +81,11 @@ public class HomeFragment  extends Fragment {
             public void onResponse(Response response) {
 
             }
+
+            @Override
+            public void onTokenError(Response response, int code) {
+
+            }
         });
     }
 
@@ -112,6 +117,11 @@ public class HomeFragment  extends Fragment {
 
             @Override
             public void onError(Response response, int code, Exception e) {
+
+            }
+
+            @Override
+            public void onTokenError(Response response, int code) {
 
             }
         });

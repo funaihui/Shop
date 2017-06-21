@@ -3,7 +3,6 @@ package com.wizardev.shop;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -24,7 +23,7 @@ import java.io.Serializable;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import dmax.dialog.SpotsDialog;
 
-public class WaresDetailActivity extends AppCompatActivity {
+public class WaresDetailActivity extends BaseActivity {
     @ViewInject(R.id.mytoolbar)
     private MyToolbar myToolbar;
     @ViewInject(R.id.web_detail)
@@ -144,13 +143,12 @@ public class WaresDetailActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void buy(long id) {
-            //Toast.makeText(WaresDetailActivity.this,"你点击了购买按钮"+id,Toast.LENGTH_SHORT).show();
-            //cartDao.selectOne(id);
+
             Intent intent = new Intent(WaresDetailActivity.this,OrderDetailActivity.class);
             intent.putExtra(Contants.WARES,mWare);
             intent.putExtra(Contants.ACTIVITY,Contants.HTML);
 
-            startActivity(intent);
+            startActivity(intent,true);
         }
 
         @JavascriptInterface

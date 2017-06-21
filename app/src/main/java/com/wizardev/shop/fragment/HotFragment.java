@@ -132,6 +132,11 @@ public class HotFragment extends Fragment {
             public void onError(Response response, int code, Exception e) {
 
             }
+
+            @Override
+            public void onTokenError(Response response, int code) {
+
+            }
         });
 
 

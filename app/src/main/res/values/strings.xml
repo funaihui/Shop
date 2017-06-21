@@ -35,4 +35,9 @@
     <string name="title_activity_yi_shou_kuan">壹收款</string>
     <string name="title_test_activity">壹收款</string>
     <string name="good_item_name">橡胶花瓶</string>
+    <string name="to_login">去登录</string>
+    <string name="my_orders">我的订单</string>
+    <string name="my_favorite">我的收藏</string>
+    <string name="my_addresses">我的地址</string>
+    <string name="logout">退出登录</string>
 </resources>

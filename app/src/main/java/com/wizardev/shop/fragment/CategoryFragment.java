@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +85,6 @@ public class CategoryFragment extends Fragment {
 
     private void requestWares(final int categoryId) {
         String url = Contants.API.WARES_LIST + "?categoryId=" + categoryId + "&curPage=" + currPage + "&pageSize=" + pageSize;
-        Log.i(TAG, "requestWares:url "+url);
         httpHelper.get(url, new SpotsCallback<Page<Wares>>(getContext()) {
             @Override
             public void onSuccess(Response response, Page<Wares> waresPage) {
@@ -258,6 +256,7 @@ public class CategoryFragment extends Fragment {
         mListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         mListRecyclerView.setAdapter(adapter);
     }
+
 }
 
 

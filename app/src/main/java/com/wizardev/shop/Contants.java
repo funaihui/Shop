@@ -8,7 +8,11 @@ public class Contants {
     public static final String WARES="wares";
     public static final String ACTIVITY="Activity";
     public static final int HTML=1;
-    public static final int ANDROID=2;
+    public static final String USER_JSON="user_json";
+    public static final String TOKEN="token";
+    public  static final int REQUEST_CODE=0;
+    public  static final int REQUEST_CODE_PAYMENT=1;
+    public  static final String DES_KEY="Cniao5_123456";
     public static class API{
 
 
@@ -25,6 +29,7 @@ public class Contants {
         public static final String WARES_LIST=BASE_URL +"wares/list";
 
         public static final String CATEGORY_LIST=BASE_URL +"category/list";
+        public static final String LOGIN=BASE_URL +"auth/login";
 
     }
 }

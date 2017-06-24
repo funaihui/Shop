@@ -1,10 +1,10 @@
 package com.wizardev.shop.application;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.mob.MobApplication;
 import com.wizardev.shop.bean.User;
 import com.wizardev.shop.utils.UserLocalData;
 
@@ -16,7 +16,7 @@ import org.xutils.x;
  * Created by wizardev on 17-6-1.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends MobApplication {
     private User user;
     private static MyApplication mInstance;
     @Override

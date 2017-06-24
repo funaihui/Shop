@@ -19,7 +19,11 @@ android {
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/litepal'] } }
 }
-
+repositories {
+    flatDir {
+        dirs '/home/wizardev/Shop/smssdk/libs' //就是你放aar的目录地址
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -27,7 +31,6 @@ dependencies {
     })
     compile project(':sharesdk')
     compile project(':paysdk')
-
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     compile 'com.android.support:recyclerview-v7:26.+'
@@ -47,4 +50,5 @@ dependencies {
     compile 'org.litepal.android:core:1.5.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     testCompile 'junit:junit:4.12'
+    compile project(':smssdk')
 }

@@ -70,7 +70,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     @Event(R.id.bt_buy)
     private void buy(View view) {
         Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-        startActivity(intent,true);
+        startActivity(intent,false);
 
     }
 

@@ -192,7 +192,7 @@ public class CategoryFragment extends Fragment {
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar,
                 R.string.catagory, R.string.catagory
         );
-
+        mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
@@ -273,6 +273,5 @@ public class CategoryFragment extends Fragment {
     }
 
 }
-
 
 

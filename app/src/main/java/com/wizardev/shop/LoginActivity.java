@@ -1,10 +1,12 @@
 package com.wizardev.shop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.wizardev.shop.application.MyApplication;
 import com.wizardev.shop.bean.LoginRespMsg;
@@ -35,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     @ViewInject(R.id.etxt_pwd)
     private ClearEditText mEtxtPwd;
 
+    @ViewInject(R.id.txt_toReg)
+    private TextView toReg;
 
 
     private OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
@@ -118,5 +122,11 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Event(R.id.txt_toReg)
+    private void toRegistered(View view){
+        Intent intent = new Intent(LoginActivity.this,RegisteredActivity.class);
+        startActivity(intent);
     }
 }
